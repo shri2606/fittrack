@@ -3,7 +3,7 @@ syntax = "proto3";
 package fittrack;
 
 // Go package path for generated code
-option go_package = "github.com/shreevee/fittrack/proto/common";
+option go_package = "github.com/shri2606/fittrack/proto/common";
 
 // ============================================================================
 // Common Messages

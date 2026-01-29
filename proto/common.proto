@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package fittrack;
+
+// Go package path for generated code
+option go_package = "github.com/shreevee/fittrack/proto/common";
+
+// ============================================================================
+// Common Messages
+// ============================================================================
+
+// Timestamp message for representing time
+// Using custom type instead of google.protobuf.Timestamp for simplicity
+message Timestamp {
+  int64 seconds = 1;  
+  int32 nanos = 2;    
+}
+
+// Empty message for RPCs with no parameters
+message Empty {}
+
+// Generic response for simple operations
+message StatusResponse {
+  bool success = 1;
+  string message = 2;
+  string error_code = 3;  
+}
+
+// ============================================================================
+// Enums
+// ============================================================================
+
+// Exercise difficulty levels
+enum Difficulty {
+  DIFFICULTY_UNSPECIFIED = 0;  
+  BEGINNER = 1;
+  INTERMEDIATE = 2;
+  ADVANCED = 3;
+}
+
+// Exercise categories
+enum Category {
+  CATEGORY_UNSPECIFIED = 0; 
+  UPPER_BODY = 1;
+  LOWER_BODY = 2;
+  CORE = 3;
+  CARDIO = 4;
+  FULL_BODY = 5;
+}

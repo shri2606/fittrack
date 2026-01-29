@@ -1,0 +1,102 @@
+syntax = "proto3";
+
+package fittrack.progress;
+
+import "common.proto";
+
+option go_package = "github.com/shri2606/fittrack/proto/progress";
+
+// ============================================================================
+// Progress Tracking Service
+// Manages workout logs, statistics, and achievements
+// ============================================================================
+
+service ProgressTracking {
+  // Log a completed workout
+  rpc LogWorkout(LogWorkoutRequest) returns (LogWorkoutResponse);
+  
+  // Get workout history for a user
+  rpc GetWorkoutHistory(HistoryRequest) returns (WorkoutHistory);
+  
+  // Get statistics for a user
+  rpc GetStatistics(StatsRequest) returns (Statistics);
+  
+  // Get achievements for a user
+  rpc GetAchievements(AchievementsRequest) returns (AchievementsList);
+}
+
+
+
+// Workout log entry
+message WorkoutLog {
+  string session_id = 1;            
+  string exercise_id = 2;           
+  string exercise_name = 3;         
+  int32 sets = 4;                   
+  int32 reps = 5;                   
+  int32 duration_seconds = 6;       
+  fittrack.Timestamp timestamp = 7; 
+  string notes = 8;                 
+}
+
+// Request to log a workout
+message LogWorkoutRequest {
+  WorkoutLog workout = 1;
+}
+
+// Response after logging workout
+message LogWorkoutResponse {
+  bool success = 1;
+  string workout_id = 2;                     
+  string message = 3;
+  repeated Achievement new_achievements = 4; 
+}
+
+// Request for workout history
+message HistoryRequest {
+  string session_id = 1;
+  int32 days_back = 2;      
+  string exercise_id = 3;   
+}
+
+// Workout history response
+message WorkoutHistory {
+  repeated WorkoutLog workouts = 1;
+  int32 total_count = 2;
+}
+
+// Request for statistics
+message StatsRequest {
+  string session_id = 1;
+  int32 days_back = 2;  
+}
+
+// Statistics response
+message Statistics {
+  int32 total_workouts = 1;                  
+  int32 total_volume = 2;                    
+  int32 workout_streak = 3;                  
+  string top_exercise = 4;                   
+  map<string, int32> exercise_counts = 5;    
+  int32 total_duration_minutes = 6;          
+}
+
+// Request for achievements
+message AchievementsRequest {
+  string session_id = 1;
+}
+
+// Achievement representation
+message Achievement {
+  string id = 1;
+  string title = 2;
+  string description = 3;
+  fittrack.Timestamp unlocked_at = 4;
+}
+
+// List of achievements
+message AchievementsList {
+  repeated Achievement achievements = 1;
+  int32 total_achievements = 2;    
+  int32 unlocked_count = 3;        
+}

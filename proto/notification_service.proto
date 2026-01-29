@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package fittrack.notification;
+
+import "common.proto";
+
+option go_package = "github.com/shri2606/fittrack/proto/notification";
+
+
+// Notification Service
+
+service NotificationService {
+  
+  rpc SendAchievementNotification(AchievementNotification) returns (NotificationResponse);
+  
+  
+  rpc SendWorkoutReminder(ReminderRequest) returns (NotificationResponse);
+}
+
+
+// Achievement notification request
+message AchievementNotification {
+  string session_id = 1;
+  string achievement_id = 2;
+  string achievement_title = 3;
+  string achievement_description = 4;
+}
+
+// Reminder request
+message ReminderRequest {
+  string session_id = 1;
+  string reminder_type = 2;              
+  fittrack.Timestamp scheduled_time = 3;
+}
+
+// Notification response
+message NotificationResponse {
+  bool success = 1;
+  string message_id = 2;      
+  string status = 3;          
+  string error_message = 4;   
+}

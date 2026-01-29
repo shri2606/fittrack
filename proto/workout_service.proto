@@ -1,0 +1,85 @@
+syntax = "proto3";
+
+package fittrack.workout;
+
+import "common.proto";
+
+option go_package = "github.com/shri2606/fittrack/proto/workout";
+
+
+// Workout Service
+// Provides exercise catalog and workout templates
+
+service WorkoutService {
+  
+  rpc ListExercises(ListExercisesRequest) returns (ListExercisesResponse);
+  
+  
+  rpc GetExercise(GetExerciseRequest) returns (Exercise);
+  
+  
+  rpc SearchExercises(SearchRequest) returns (SearchResponse);
+  
+  
+  rpc ListWorkoutTemplates(fittrack.Empty) returns (WorkoutTemplateList);
+}
+
+
+// Messages
+// Exercise represents a single exercise
+message Exercise {
+  string id = 1;                             
+  string name = 2;                            
+  fittrack.Category category = 3;             
+  repeated string muscle_groups = 4;          
+  fittrack.Difficulty difficulty = 5;         
+  string equipment = 6;                      
+  string description = 7;                     
+  string video_url = 8;                       
+}
+
+// Request to list exercises
+message ListExercisesRequest {
+  fittrack.Category category = 1;  
+  int32 page_size = 2;              
+  int32 page_number = 3;            
+}
+
+// Response containing list of exercises
+message ListExercisesResponse {
+  repeated Exercise exercises = 1;  
+  int32 total_count = 2;            
+  int32 page_number = 3;            
+}
+
+// Request to get a single exercise
+message GetExerciseRequest {
+  string id = 1;  
+}
+
+// Search request
+message SearchRequest {
+  string query = 1;                     
+  fittrack.Category category = 2;       
+  fittrack.Difficulty difficulty = 3;   
+}
+
+// Search response
+message SearchResponse {
+  repeated Exercise exercises = 1;  
+  int32 total_results = 2;          
+}
+
+// Workout template (pre-defined workout plan)
+message WorkoutTemplate {
+  string id = 1;                        
+  string name = 2;                      
+  string description = 3;               
+  repeated string exercise_ids = 4;     
+  int32 estimated_duration_minutes = 5; 
+}
+
+// List of workout templates
+message WorkoutTemplateList {
+  repeated WorkoutTemplate templates = 1;
+}
